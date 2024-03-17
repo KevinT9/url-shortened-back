@@ -17,6 +17,5 @@ public class UrlEntity {
     private String originalUrl;
     private String shortenedUrl;
     private String codeGeneratedUrl;
-
 }
 
