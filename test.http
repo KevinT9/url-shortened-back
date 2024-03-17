@@ -1,0 +1,26 @@
+###
+
+# curl -X POST -H "Content-Type: application/json" -d '{"originalUrl": "https://www.ejemplo.com/una/url/larga"}' http://localhost:8080/api/url/shorten
+POST http://localhost:8080/api/url/shorten
+Content-Type: application/json
+
+{
+  "originalUrl": "https://www.youtube.com/watch?v=1c5EeSYjMzA"
+}
+
+###
+
+# curl http://localhost:8080/api/url/original/URL-ACORTADA
+# curl "http://localhost:8080/api/url/original?shortenedUrl=http://example.com/4e02d068"
+GET http://localhost:8080/api/url/original/d8e5f5c9
+
+###
+
+
+###
+
+# curl "http://localhost:8080/api/url/original?shortenedUrl=http://example.com/4e02d068"
+GET http://localhost:8080/api/url/original?shortenedUrl=http://localhost:8080/07a1e17c
+
+###
+
