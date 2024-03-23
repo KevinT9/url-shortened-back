@@ -23,7 +23,6 @@ public class UrlShortenerService {
     public String shortenUrl(String originalUrl) {
         // Lógica para generar URL acortada (puede ser un algoritmo de codificación)
         String code = generateUniqueIdentifier();
-//        String shortenedUrl = "http://example.com/" + generateUniqueIdentifier();
         String shortenedUrl = defaultHost + code;
         UrlEntity urlEntity = new UrlEntity();
         urlEntity.setOriginalUrl(originalUrl);
@@ -52,7 +51,6 @@ public class UrlShortenerService {
     }
 
     private String generateUniqueIdentifier() {
-        // Implementa un algoritmo para generar una cadena única (puedes usar UUID, por ejemplo)
         return UUID.randomUUID().toString().substring(0, 8);
     }
 }

@@ -7,20 +7,16 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "url")
-public class UrlEntity {
+@Table(name = "device_record")
+public class DeviceRecordEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String originalUrl;
-
-    private String shortenedUrl;
-
-    private String codeGeneratedUrl;
-
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-}
+    private ClickRecordEntity clickRecordEntity;
 
+    private String deviceType;
+    private String operatingSystem;
+    private String screenResolution;
+}
