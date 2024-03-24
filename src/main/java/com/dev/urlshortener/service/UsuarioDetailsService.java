@@ -2,7 +2,6 @@ package com.dev.urlshortener.service;
 
 import com.dev.urlshortener.entity.UserEntity;
 import com.dev.urlshortener.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
