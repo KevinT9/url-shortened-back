@@ -70,7 +70,7 @@ public class SecurityConfig {
     public static void main(String[] args) {
         String password = "123";
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.println(encoder.encode(password));;
+        System.out.println(encoder.encode(password));
     }
 
 }
