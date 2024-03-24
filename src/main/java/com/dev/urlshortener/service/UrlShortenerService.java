@@ -1,5 +1,6 @@
 package com.dev.urlshortener.service;
 
+import com.dev.urlshortener.entity.ClickRecordEntity;
 import com.dev.urlshortener.entity.UrlEntity;
 import com.dev.urlshortener.entity.UserEntity;
 import com.dev.urlshortener.repository.UrlRepository;
