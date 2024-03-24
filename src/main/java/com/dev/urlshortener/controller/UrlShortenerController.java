@@ -2,7 +2,6 @@ package com.dev.urlshortener.controller;
 
 import com.dev.urlshortener.dto.UrlDTO;
 import com.dev.urlshortener.service.UrlShortenerService;
-import com.dev.urlshortener.service.UsersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
