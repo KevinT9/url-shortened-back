@@ -4,6 +4,6 @@ import com.dev.urlshortener.entity.UserEntity;
 
 public interface UsersService {
 
-    UserEntity getAuthenticatedUsername();
+    UserEntity getUserEntityAuthenticated();
     UserEntity saveUser(UserEntity user);
 }

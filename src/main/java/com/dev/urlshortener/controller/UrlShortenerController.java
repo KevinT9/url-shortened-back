@@ -1,7 +1,9 @@
 package com.dev.urlshortener.controller;
 
 import com.dev.urlshortener.dto.UrlDTO;
+import com.dev.urlshortener.entity.UserEntity;
 import com.dev.urlshortener.service.UrlShortenerService;
+import com.dev.urlshortener.service.UsersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/url")
 public class UrlShortenerController {
     private final UrlShortenerService urlShortenerService;
+    private final UsersService userService;
 
-    public UrlShortenerController(UrlShortenerService urlShortenerService) {
+    public UrlShortenerController(UrlShortenerService urlShortenerService, UsersService userService) {
         this.urlShortenerService = urlShortenerService;
+        this.userService = userService;
     }
 
     @PostMapping("/shorten")
-    public ResponseEntity<String> shortenUrl(@RequestBody UrlDTO urlDTO, Authentication authentication) {
+    public ResponseEntity<String> shortenUrl(@RequestBody UrlDTO urlDTO) {
         String shortenedUrl = urlShortenerService.shortenUrl(urlDTO.getOriginalUrl());
-        System.out.println("name: " + authentication.getName());
-
         return ResponseEntity.ok(shortenedUrl);
     }
 

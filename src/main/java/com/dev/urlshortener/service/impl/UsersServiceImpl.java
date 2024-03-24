@@ -22,7 +22,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public UserEntity getAuthenticatedUsername() {
+    public UserEntity getUserEntityAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null && authentication.getName() != null) {

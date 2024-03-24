@@ -1,10 +1,12 @@
 package com.dev.urlshortener.service;
 
 import com.dev.urlshortener.entity.UrlEntity;
+import com.dev.urlshortener.entity.UserEntity;
 import com.dev.urlshortener.repository.UrlRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,19 +17,30 @@ public class UrlShortenerService {
     private String defaultHost;
 
     private final UrlRepository urlRepository;
+    private final UsersService userService;
 
-    public UrlShortenerService(UrlRepository urlRepository) {
+    public UrlShortenerService(UrlRepository urlRepository, UsersService userService) {
         this.urlRepository = urlRepository;
+        this.userService = userService;
     }
 
     public String shortenUrl(String originalUrl) {
         // Lógica para generar URL acortada (puede ser un algoritmo de codificación)
         String code = generateUniqueIdentifier();
         String shortenedUrl = defaultHost + code;
+
         UrlEntity urlEntity = new UrlEntity();
         urlEntity.setOriginalUrl(originalUrl);
         urlEntity.setShortenedUrl(shortenedUrl);
         urlEntity.setCodeGeneratedUrl(code);
+
+        Date currentDate = new Date();
+        int tenDaysInMilliseconds = 10 * 24 * 60 * 60 * 1000;
+        Date newExpirationDate = new Date(currentDate.getTime() + tenDaysInMilliseconds);
+        urlEntity.setExpirationDate(newExpirationDate);
+
+        UserEntity user = userService.getUserEntityAuthenticated();
+        urlEntity.setUser(user);
 
         urlRepository.save(urlEntity);
 
