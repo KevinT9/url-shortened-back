@@ -34,9 +34,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(ex -> ex.accessDeniedPage("/access-denied"))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/css/**","/js/**").permitAll()
-                        .requestMatchers("/registrarse").permitAll()
-                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/registrarse", "/*").permitAll()
+                        .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
@@ -66,6 +65,12 @@ public class SecurityConfig {
         StrictHttpFirewall firewall = new StrictHttpFirewall();
         firewall.setAllowSemicolon(true);
         return firewall;
+    }
+
+    public static void main(String[] args) {
+        String password = "123";
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.println(encoder.encode(password));;
     }
 
 }

@@ -3,6 +3,7 @@ package com.dev.urlshortener.controller;
 import com.dev.urlshortener.dto.UrlDTO;
 import com.dev.urlshortener.service.UrlShortenerService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,8 +16,10 @@ public class UrlShortenerController {
     }
 
     @PostMapping("/shorten")
-    public ResponseEntity<String> shortenUrl(@RequestBody UrlDTO urlDTO) {
+    public ResponseEntity<String> shortenUrl(@RequestBody UrlDTO urlDTO, Authentication authentication) {
         String shortenedUrl = urlShortenerService.shortenUrl(urlDTO.getOriginalUrl());
+        System.out.println("name: " + authentication.getName());
+
         return ResponseEntity.ok(shortenedUrl);
     }
 
