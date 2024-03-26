@@ -1,6 +1,6 @@
 package com.dev.urlshortener.controller;
 
-import com.dev.urlshortener.service.UrlShortenerService;
+import com.dev.urlshortener.service.impl.UrlShortenerServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +11,9 @@ import java.io.IOException;
 @RequestMapping
 public class RedirectController {
 
-    private final UrlShortenerService urlShortenerService;
+    private final UrlShortenerServiceImpl urlShortenerService;
 
-    public RedirectController(UrlShortenerService urlShortenerService) {
+    public RedirectController(UrlShortenerServiceImpl urlShortenerService) {
         this.urlShortenerService = urlShortenerService;
     }
 
