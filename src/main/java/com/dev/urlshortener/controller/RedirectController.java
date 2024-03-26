@@ -6,7 +6,6 @@ import com.dev.urlshortener.entity.UrlEntity;
 import com.dev.urlshortener.service.ClickRecordService;
 import com.dev.urlshortener.service.DeviceRecordService;
 import com.dev.urlshortener.service.UrlShortenerService;
-import com.dev.urlshortener.service.impl.UrlShortenerServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import nl.basjes.parse.useragent.UserAgent;
