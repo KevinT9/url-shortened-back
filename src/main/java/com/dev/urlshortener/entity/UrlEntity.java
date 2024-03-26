@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -13,11 +15,18 @@ public class UrlEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String originalUrl;
 
+    @Column(nullable = false)
     private String shortenedUrl;
 
+    @Column(nullable = false)
     private String codeGeneratedUrl;
+
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date expirationDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
