@@ -54,38 +54,41 @@ public class UrlShortenerController {
 
         if (urlEntity != null) {
 
-            ClickRecordEntity clickRecordEntity = new ClickRecordEntity();
-            clickRecordEntity.setUrlEntity(urlEntity);
-            clickRecordEntity.setClickDateTime(new Date());
+//            ClickRecordEntity clickRecordEntity = new ClickRecordEntity();
+//            clickRecordEntity.setUrlEntity(urlEntity);
+//            clickRecordEntity.setClickDateTime(new Date());
+//
+//            // Obtener la dirección IP del cliente
+//            String ipAddress = request.getHeader("X-Forwarded-For");
+//            if (ipAddress == null) {
+//                ipAddress = request.getRemoteAddr();
+//            }
+//            clickRecordEntity.setIpAddress(ipAddress);
+//
+//            // Obtener el User Agent del cliente
+//            String userAgentString = request.getHeader("User-Agent");
+//            clickRecordEntity.setUserAgent(userAgentString);
+//
+//            clickRecordEntity = clickRecordService.save(clickRecordEntity);
+//
+//            UserAgent userAgent = userAgentAnalyzer.parse(userAgentString);
+//
+//            DeviceRecordEntity deviceRecordEntity = new DeviceRecordEntity();
+//            deviceRecordEntity.setClickRecordEntity(clickRecordEntity);
+//            deviceRecordEntity.setDeviceType(userAgent.getValue(UserAgent.DEVICE_CLASS));
+//            deviceRecordEntity.setOperatingSystem(userAgent.getValue(UserAgent.OPERATING_SYSTEM_NAME_VERSION));
+//
+//            deviceRecordEntity = deviceRecordService.save(deviceRecordEntity);
 
-            // Obtener la dirección IP del cliente
-            String ipAddress = request.getHeader("X-Forwarded-For");
-            if (ipAddress == null) {
-                ipAddress = request.getRemoteAddr();
-            }
-            clickRecordEntity.setIpAddress(ipAddress);
+//            if (clickRecordEntity.getId() != null && deviceRecordEntity.getId() != null) {
+//                String originalUrl = urlEntity.getOriginalUrl();
+//                return ResponseEntity.ok(originalUrl);
+//            } else {
+//                return ResponseEntity.badRequest().build();
+//            }
 
-            // Obtener el User Agent del cliente
-            String userAgentString = request.getHeader("User-Agent");
-            clickRecordEntity.setUserAgent(userAgentString);
-
-            clickRecordEntity = clickRecordService.save(clickRecordEntity);
-
-            UserAgent userAgent = userAgentAnalyzer.parse(userAgentString);
-
-            DeviceRecordEntity deviceRecordEntity = new DeviceRecordEntity();
-            deviceRecordEntity.setClickRecordEntity(clickRecordEntity);
-            deviceRecordEntity.setDeviceType(userAgent.getValue(UserAgent.DEVICE_CLASS));
-            deviceRecordEntity.setOperatingSystem(userAgent.getValue(UserAgent.OPERATING_SYSTEM_NAME_VERSION));
-
-            deviceRecordEntity = deviceRecordService.save(deviceRecordEntity);
-
-            if (clickRecordEntity.getId() != null && deviceRecordEntity.getId() != null) {
-                String originalUrl = urlEntity.getOriginalUrl();
-                return ResponseEntity.ok(originalUrl);
-            }else {
-                return ResponseEntity.badRequest().build();
-            }
+            String originalUrl = urlEntity.getOriginalUrl();
+            return ResponseEntity.ok(originalUrl);
         } else {
             return ResponseEntity.notFound().build();
         }

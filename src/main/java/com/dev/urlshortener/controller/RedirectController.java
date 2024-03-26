@@ -57,14 +57,10 @@ public class RedirectController {
 
             // Obtener la dirección IP del cliente
             String ipAddress = request.getHeader("X-Forwarded-For");
-            System.out.println("X-Forwarded-For " + ipAddress);
             if (ipAddress == null) {
                 ipAddress = request.getRemoteAddr();
             }
 
-            System.out.println("remote add " + ipAddress);
-            System.out.println("getRemoteUser  " + request.getRemoteUser());
-            System.out.println("getLocalAddr " + request.getLocalAddr());
             clickRecordEntity.setIpAddress(ipAddress);
 
             // Obtener el User Agent del cliente
@@ -73,14 +69,12 @@ public class RedirectController {
 
             clickRecordEntity = clickRecordService.save(clickRecordEntity);
 
-            // Analizar el User Agent para obtener información del dispositivo
             UserAgent userAgent = userAgentAnalyzer.parse(userAgentString);
 
             DeviceRecordEntity deviceRecordEntity = new DeviceRecordEntity();
             deviceRecordEntity.setClickRecordEntity(clickRecordEntity);
             deviceRecordEntity.setDeviceType(userAgent.getValue(UserAgent.DEVICE_CLASS));
             deviceRecordEntity.setOperatingSystem(userAgent.getValue(UserAgent.OPERATING_SYSTEM_NAME_VERSION));
-//            deviceRecordEntity.setScreenResolution(userAgent.getValue(UserAgent.DEVICE_SCREEN_RESOLUTION));
 
             deviceRecordEntity = deviceRecordService.save(deviceRecordEntity);
 
@@ -88,19 +82,11 @@ public class RedirectController {
                 String originalUrl = urlEntity.getOriginalUrl();
                 response.sendRedirect(originalUrl);
                 return ResponseEntity.ok().build();
-            }else {
+            } else {
                 return ResponseEntity.badRequest().build();
             }
         } else {
             return ResponseEntity.notFound().build();
         }
-
-//        String originalUrl = urlShortenerService.getStringOriginalUrl(codeGeneratedUrl);
-//        if (originalUrl != null) {
-//            response.sendRedirect(originalUrl);
-//            return ResponseEntity.ok().build();
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
     }
 }
