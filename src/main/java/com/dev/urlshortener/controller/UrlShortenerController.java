@@ -71,14 +71,12 @@ public class UrlShortenerController {
 
             clickRecordEntity = clickRecordService.save(clickRecordEntity);
 
-            // Analizar el User Agent para obtener información del dispositivo
             UserAgent userAgent = userAgentAnalyzer.parse(userAgentString);
 
             DeviceRecordEntity deviceRecordEntity = new DeviceRecordEntity();
             deviceRecordEntity.setClickRecordEntity(clickRecordEntity);
             deviceRecordEntity.setDeviceType(userAgent.getValue(UserAgent.DEVICE_CLASS));
             deviceRecordEntity.setOperatingSystem(userAgent.getValue(UserAgent.OPERATING_SYSTEM_NAME_VERSION));
-//            deviceRecordEntity.setScreenResolution(userAgent.getValue(UserAgent.DEVICE_SCREEN_RESOLUTION));
 
             deviceRecordEntity = deviceRecordService.save(deviceRecordEntity);
 
