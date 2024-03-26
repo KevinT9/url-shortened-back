@@ -1,6 +1,5 @@
 package com.dev.urlshortener.service.impl;
 
-import com.dev.urlshortener.entity.ClickRecordEntity;
 import com.dev.urlshortener.entity.UrlEntity;
 import com.dev.urlshortener.entity.UserEntity;
 import com.dev.urlshortener.repository.ClickRecordRepository;
@@ -22,12 +21,10 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 
     private final UrlRepository urlRepository;
     private final UsersService userService;
-    private final ClickRecordRepository clickRecordRepository;
 
-    public UrlShortenerServiceImpl(UrlRepository urlRepository, UsersService userService, ClickRecordRepository clickRecordRepository) {
+    public UrlShortenerServiceImpl(UrlRepository urlRepository, UsersService userService) {
         this.urlRepository = urlRepository;
         this.userService = userService;
-        this.clickRecordRepository = clickRecordRepository;
     }
 
     public String shortenUrl(String originalUrl) {
@@ -61,19 +58,6 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 
     public UrlEntity getOriginalUrlFindByCode(String code) {
         Optional<UrlEntity> urlEntityOptional = urlRepository.findByCodeGeneratedUrl(code);
-
-        if (urlEntityOptional.isPresent()) {
-            UrlEntity urlEntity = urlEntityOptional.get();
-
-//            ClickRecordEntity clickRecordEntity = new ClickRecordEntity();
-//            clickRecordEntity.setUrlEntity(urlEntity);
-//            clickRecordEntity.setClickDateTime(new Date());
-//            clickRecordEntity.setIpAddress("");
-//            clickRecordEntity.setUserAgent("");
-//
-//            clickRecordRepository.save(clickRecordEntity);
-        }
-
         return urlEntityOptional.orElse(null);
     }
 
