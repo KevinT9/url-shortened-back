@@ -2,11 +2,15 @@ package com.dev.urlshortener.controller;
 
 import com.dev.urlshortener.dto.UrlDTO;
 import com.dev.urlshortener.entity.ClickRecordEntity;
+import com.dev.urlshortener.entity.DeviceRecordEntity;
 import com.dev.urlshortener.entity.UrlEntity;
 import com.dev.urlshortener.service.ClickRecordService;
+import com.dev.urlshortener.service.DeviceRecordService;
 import com.dev.urlshortener.service.UrlShortenerService;
 import com.dev.urlshortener.service.impl.UrlShortenerServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import nl.basjes.parse.useragent.UserAgent;
+import nl.basjes.parse.useragent.UserAgentAnalyzer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +21,13 @@ import java.util.Date;
 public class UrlShortenerController {
     private final UrlShortenerService urlShortenerService;
     private final ClickRecordService clickRecordService;
+    private final DeviceRecordService deviceRecordService;
+    private static final UserAgentAnalyzer userAgentAnalyzer = UserAgentAnalyzer.newBuilder().build();
 
-    public UrlShortenerController(UrlShortenerServiceImpl urlShortenerService, ClickRecordService clickRecordService) {
+    public UrlShortenerController(UrlShortenerServiceImpl urlShortenerService, ClickRecordService clickRecordService, DeviceRecordService deviceRecordService) {
         this.urlShortenerService = urlShortenerService;
         this.clickRecordService = clickRecordService;
+        this.deviceRecordService = deviceRecordService;
     }
 
     @PostMapping("/shorten")
@@ -38,6 +45,7 @@ public class UrlShortenerController {
             return ResponseEntity.notFound().build();
         }
     }
+
 
     @GetMapping("/original/{codeGenerated}")
     public ResponseEntity<String> getOriginalUrlByCode(@PathVariable String codeGenerated, HttpServletRequest request) {
@@ -58,13 +66,28 @@ public class UrlShortenerController {
             clickRecordEntity.setIpAddress(ipAddress);
 
             // Obtener el User Agent del cliente
-            String userAgent = request.getHeader("User-Agent");
-            clickRecordEntity.setUserAgent(userAgent);
+            String userAgentString = request.getHeader("User-Agent");
+            clickRecordEntity.setUserAgent(userAgentString);
 
-            clickRecordService.save(clickRecordEntity);
+            clickRecordEntity = clickRecordService.save(clickRecordEntity);
 
-            String originalUrl = urlEntity.getOriginalUrl();
-            return ResponseEntity.ok(originalUrl);
+            // Analizar el User Agent para obtener información del dispositivo
+            UserAgent userAgent = userAgentAnalyzer.parse(userAgentString);
+
+            DeviceRecordEntity deviceRecordEntity = new DeviceRecordEntity();
+            deviceRecordEntity.setClickRecordEntity(clickRecordEntity);
+            deviceRecordEntity.setDeviceType(userAgent.getValue(UserAgent.DEVICE_CLASS));
+            deviceRecordEntity.setOperatingSystem(userAgent.getValue(UserAgent.OPERATING_SYSTEM_NAME_VERSION));
+//            deviceRecordEntity.setScreenResolution(userAgent.getValue(UserAgent.DEVICE_SCREEN_RESOLUTION));
+
+            deviceRecordEntity = deviceRecordService.save(deviceRecordEntity);
+
+            if (clickRecordEntity.getId() != null && deviceRecordEntity.getId() != null) {
+                String originalUrl = urlEntity.getOriginalUrl();
+                return ResponseEntity.ok(originalUrl);
+            }else {
+                return ResponseEntity.badRequest().build();
+            }
         } else {
             return ResponseEntity.notFound().build();
         }
