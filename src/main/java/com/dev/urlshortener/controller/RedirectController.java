@@ -58,9 +58,14 @@ public class RedirectController {
 
             // Obtener la dirección IP del cliente
             String ipAddress = request.getHeader("X-Forwarded-For");
+            System.out.println("X-Forwarded-For " + ipAddress);
             if (ipAddress == null) {
                 ipAddress = request.getRemoteAddr();
             }
+
+            System.out.println("remote add " + ipAddress);
+            System.out.println("getRemoteUser  " + request.getRemoteUser());
+            System.out.println("getLocalAddr " + request.getLocalAddr());
             clickRecordEntity.setIpAddress(ipAddress);
 
             // Obtener el User Agent del cliente
