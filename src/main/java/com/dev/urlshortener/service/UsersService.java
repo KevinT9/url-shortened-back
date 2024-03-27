@@ -6,4 +6,6 @@ public interface UsersService {
 
     UserEntity getUserEntityAuthenticated();
     UserEntity saveUser(UserEntity user);
+    UserEntity findByUsername(String username);
+    UserEntity findUserByUsernameAndPassword(String username, String password);
 }
