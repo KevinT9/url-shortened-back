@@ -48,4 +48,22 @@ public class LoginController {
 
         return ResponseEntity.badRequest().build();
     }
+    @PostMapping("/modify")
+    ResponseEntity<UserEntity> modify(@RequestBody UserEntity userEntity) {
+
+        UserEntity userBuscado = usersService.findByUsername(userEntity.getUsername());
+
+        if(userBuscado == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
+        userEntity.setCreated(userBuscado.getCreated());
+        userEntity = usersService.modifyUser(userEntity);
+
+        if (userEntity != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(userEntity);
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
 }

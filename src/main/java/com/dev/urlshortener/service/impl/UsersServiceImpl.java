@@ -20,9 +20,15 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public UserEntity saveUser(UserEntity usuario) {
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        return usuarioRepository.save(usuario);
+    public UserEntity saveUser(UserEntity user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return usuarioRepository.save(user);
+    }
+
+    @Override
+    public UserEntity modifyUser(UserEntity user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return usuarioRepository.save(user);
     }
 
     @Override
