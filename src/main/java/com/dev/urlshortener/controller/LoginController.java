@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/url/user/")
+@RequestMapping("/api/user/")
 public class LoginController {
 
     private final UsersService usersService;
