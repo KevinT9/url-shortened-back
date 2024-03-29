@@ -25,6 +25,7 @@ public class ClickRecordController {
     public ClickRecordController(ClickRecordService clickRecordService, UrlService urlService, UsersService usersService) {
         this.clickRecordService = clickRecordService;
         this.urlService = urlService;
+
         this.usersService = usersService;
     }
 
