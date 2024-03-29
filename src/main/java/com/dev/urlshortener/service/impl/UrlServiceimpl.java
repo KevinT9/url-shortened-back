@@ -1,6 +1,7 @@
 package com.dev.urlshortener.service.impl;
 
 import com.dev.urlshortener.entity.UrlEntity;
+import com.dev.urlshortener.entity.UserEntity;
 import com.dev.urlshortener.repository.UrlRepository;
 import com.dev.urlshortener.service.UrlService;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ public class UrlServiceimpl implements UrlService {
     }
 
     @Override
-    public UrlEntity findUrlEntityByCode(String code) {
-        Optional<UrlEntity> urlEntity = urlRepository.findByCodeGeneratedUrl(code);
+    public UrlEntity findUrlEntityByCodeAndUser(String code, UserEntity user) {
+        Optional<UrlEntity> urlEntity = urlRepository.findByCodeGeneratedUrlAndUser(code, user);
         return urlEntity.orElse(null);
     }
 }

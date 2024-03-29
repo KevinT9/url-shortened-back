@@ -1,7 +1,8 @@
 package com.dev.urlshortener.service;
 
 import com.dev.urlshortener.entity.UrlEntity;
+import com.dev.urlshortener.entity.UserEntity;
 
 public interface UrlService {
-    UrlEntity findUrlEntityByCode(String code);
+    UrlEntity findUrlEntityByCodeAndUser(String code, UserEntity user);
 }
