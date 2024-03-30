@@ -11,11 +11,11 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/api/user")
-public class LoginController {
+public class UserController {
 
     private final UsersService usersService;
 
-    public LoginController(UsersService usersService) {
+    public UserController(UsersService usersService) {
         this.usersService = usersService;
     }
 
