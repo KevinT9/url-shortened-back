@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.dev</groupId>
-	<artifactId>urlshortener</artifactId>
+	<artifactId>url-shortener-back</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>urlshortener</name>
 	<description>urlshortener</description>
