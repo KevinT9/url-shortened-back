@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/url/user/")
-public class LoginController {
+@RequestMapping("/api/user")
+public class UserController {
 
     private final UsersService usersService;
 
-    public LoginController(UsersService usersService) {
+    public UserController(UsersService usersService) {
         this.usersService = usersService;
     }
 
@@ -44,6 +44,25 @@ public class LoginController {
 
         if (userEntity != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(userEntity);
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("/modify")
+    ResponseEntity<UserEntity> modify(@RequestBody UserEntity userEntity) {
+
+        UserEntity userBuscado = usersService.findByUsername(userEntity.getUsername());
+
+        if(userBuscado == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
+        userEntity.setCreated(userBuscado.getCreated());
+        userEntity = usersService.modifyUser(userEntity);
+
+        if (userEntity != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(userEntity);
         }
 
         return ResponseEntity.badRequest().build();

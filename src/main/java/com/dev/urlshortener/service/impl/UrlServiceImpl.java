@@ -3,7 +3,7 @@ package com.dev.urlshortener.service.impl;
 import com.dev.urlshortener.entity.UrlEntity;
 import com.dev.urlshortener.entity.UserEntity;
 import com.dev.urlshortener.repository.UrlRepository;
-import com.dev.urlshortener.service.UrlShortenerService;
+import com.dev.urlshortener.service.UrlService;
 import com.dev.urlshortener.service.UsersService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UrlShortenerServiceImpl implements UrlShortenerService {
+public class UrlServiceImpl implements UrlService {
 
     @Value("${defaultHost}")
     private String defaultHost;
@@ -21,7 +21,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     private final UrlRepository urlRepository;
     private final UsersService userService;
 
-    public UrlShortenerServiceImpl(UrlRepository urlRepository, UsersService userService) {
+    public UrlServiceImpl(UrlRepository urlRepository, UsersService userService) {
         this.urlRepository = urlRepository;
         this.userService = userService;
     }
@@ -60,9 +60,15 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         return urlEntityOptional.orElse(null);
     }
 
-    public String getStringOriginalUrl(String code) {
-        UrlEntity urlEntity = getOriginalUrlFindByCode(code);
-        return urlEntity.getOriginalUrl();
+    @Override
+    public void delete(UrlEntity urlEntity) {
+        urlRepository.delete(urlEntity);
+    }
+
+    @Override
+    public UrlEntity findUrlEntityByCodeAndUser(String code, UserEntity user) {
+        Optional<UrlEntity> urlEntity = urlRepository.findByCodeGeneratedUrlAndUser(code, user);
+        return urlEntity.orElse(null);
     }
 
     private String generateUniqueIdentifier() {

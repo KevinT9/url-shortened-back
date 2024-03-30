@@ -5,7 +5,7 @@ import com.dev.urlshortener.entity.DeviceRecordEntity;
 import com.dev.urlshortener.entity.UrlEntity;
 import com.dev.urlshortener.service.ClickRecordService;
 import com.dev.urlshortener.service.DeviceRecordService;
-import com.dev.urlshortener.service.UrlShortenerService;
+import com.dev.urlshortener.service.UrlService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import nl.basjes.parse.useragent.UserAgent;
@@ -20,13 +20,13 @@ import java.util.Date;
 @RequestMapping
 public class RedirectController {
 
-    private final UrlShortenerService urlShortenerService;
+    private final UrlService urlService;
     private final ClickRecordService clickRecordService;
     private final DeviceRecordService deviceRecordService;
     private static final UserAgentAnalyzer userAgentAnalyzer = UserAgentAnalyzer.newBuilder().build();
 
-    public RedirectController(UrlShortenerService urlShortenerService, ClickRecordService clickRecordService, DeviceRecordService deviceRecordService) {
-        this.urlShortenerService = urlShortenerService;
+    public RedirectController(UrlService urlService, ClickRecordService clickRecordService, DeviceRecordService deviceRecordService) {
+        this.urlService = urlService;
         this.clickRecordService = clickRecordService;
         this.deviceRecordService = deviceRecordService;
     }
@@ -34,7 +34,7 @@ public class RedirectController {
 
     @GetMapping("/findByUrlShortener")
     public ResponseEntity<Void> redirectToOriginalUrlFindByUrlShortener(@RequestParam String shortenedUrl, HttpServletResponse response) throws IOException {
-        String originalUrl = urlShortenerService.getOriginalUrl(shortenedUrl);
+        String originalUrl = urlService.getOriginalUrl(shortenedUrl);
         if (originalUrl != null) {
             response.sendRedirect(originalUrl);
             return ResponseEntity.ok().build();
@@ -47,7 +47,7 @@ public class RedirectController {
     public ResponseEntity<Void> redirectToOriginalUrlFindByCodeGenerated(@PathVariable String codeGeneratedUrl, HttpServletRequest request,
                                                                          HttpServletResponse response) throws IOException {
 
-        UrlEntity urlEntity = urlShortenerService.getOriginalUrlFindByCode(codeGeneratedUrl);
+        UrlEntity urlEntity = urlService.getOriginalUrlFindByCode(codeGeneratedUrl);
 
         if (urlEntity != null) {
 
